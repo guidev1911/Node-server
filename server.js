@@ -1,18 +1,16 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Adiciona o módulo CORS
-require('dotenv').config(); // Importa variáveis de ambiente do arquivo .env
+const cors = require('cors'); 
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
 
-// Middleware para permitir CORS
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configuração do Nodemailer
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -21,13 +19,12 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Rota para enviar e-mail
 app.post('/send-email', (req, res) => {
     const { name, email, message } = req.body;
 
     let mailOptions = {
         from: process.env.EMAIL_USER,
-        to: 'guispeedcar22@gmail.com', // Substitua pelo e-mail de destino
+        to: 'guispeedcar22@gmail.com', 
         subject: 'Nova mensagem de contato',
         text: `Você recebeu uma nova mensagem de ${name} (${email}):\n\n${message}`
     };
@@ -41,7 +38,6 @@ app.post('/send-email', (req, res) => {
     });
 });
 
-// Inicia o servidor
 app.listen(port, () => {
     console.log(`Servidor está funcionando na porta ${port}`);
 });
